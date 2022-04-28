@@ -1,0 +1,178 @@
+$spacing: 15px;
+.cdk-drag-placeholder {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.dead-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.flex-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+:host > section.button-bar {
+    @extend .flex-center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: $spacing;
+    justify-content: flex-end;
+    gap: $spacing;
+    box-sizing: border-box;
+}
+:host > main {
+    position: relative;
+    height: 100%;
+    h1.moving {
+        font-weight: bold !important;
+        &::before {
+            content: '- ';
+        }
+        &::after {
+            content: ' -';
+        }
+    }
+    & > section.hand-ui {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        & > div {
+            @extend .flex-center;
+            gap: 20px;
+            & > h1 {
+                margin: 0;
+            }
+        }
+        & > section#hand-ui {
+            display: grid;
+            max-width: var(--max-width);
+            margin-bottom: $spacing;
+            justify-content: center;
+            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(0px, max-content));
+            & > div.card {
+                transition: transform 0.2s ease-out;
+                box-sizing: border-box;
+                @extend .flex-center;
+                &:hover {
+                    transform: translateY(-20%);
+                }
+                &.canDrag {
+                    cursor: grab;
+                }
+            }
+        }
+    }
+    & > section.common-ui {
+        @extend .dead-center;
+        @extend .flex-center;
+        justify-content: space-between;
+        top: 45%;
+        gap: 2vw;
+        & > section:not(.motor-ui) {
+            position: relative;
+            & > div {
+                @extend .dead-center;
+                @extend .flex-center;
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+                & > div.item {
+                    @extend .dead-center;
+                    @extend .flex-center;
+                    box-sizing: border-box;
+                }
+            }
+            &::after {
+                @extend .dead-center;
+                width: 100%;
+                text-align: center;
+                top: 100%;
+                transform: translateX(-50%);
+                margin-top: 5px;
+                font-size: large;
+            }
+            &:first-of-type::after {
+                content: 'Deck';
+            }
+            &:last-of-type::after {
+                content: 'Discard';
+            }
+        }
+        & > section.motor-ui {
+            flex: 1;
+            width: var(--size);
+            height: var(--size);
+            @extend .flex-center;
+            & > div.motor {
+                width: 90%;
+                height: 90%;
+                border-radius: 50%;
+                background-image: url(../../../assets/board/rotate.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                animation-name: rotate;
+                animation-duration: 3s;
+                animation-iteration-count: infinite;
+                animation-direction: normal;
+                animation-timing-function: linear;
+                @keyframes rotate {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+                @keyframes rotate-2 {
+                    from { transform: rotate(360deg) scaleX(-1); }
+                    to { transform: rotate(0deg) scaleX(-1); }
+                }
+                &.reverse {
+                    animation-name: rotate-2;
+                }
+            }
+        }
+    }
+    & > section.opponent-ui {
+        position: absolute;
+        top: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        gap: 10px;
+        &.left {
+            left: 15vw;
+            transform: translate(-50%, -50%);
+        }
+        &.right {
+            right: 15vw;
+            transform: translate(50%, -50%);
+        }
+        & > div {
+            position: relative;
+            & > h1 {
+                @extend .dead-center;
+            }
+        }
+    }
+    & > app-billboard {
+        position: absolute;
+        left: 50%;
+        top: 12%;
+        padding: $spacing;
+        max-width: 50vw;
+        transform: translateX(-50%);
+    }
+}

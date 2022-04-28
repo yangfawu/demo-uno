@@ -1,0 +1,19 @@
+<section [matTooltip]="name"
+    [matTooltipDisabled]="hidden || true"
+    matTooltipPosition="above" 
+    [class.mat-elevation-z8]="true"
+    style="
+        --width: {{ trueWidth$ | async }}px;
+        --x: {{ x }};
+        --y: {{ y }};
+    ">
+    <!-- UNO-THEME -->
+    <div *ngIf="y < 4 && x < 13"
+        [class.mexico]="theme == 1"
+        [class.spain]="theme == 2"
+        [class.south-africa]="theme == 3"
+        [class.france]="theme == 4"
+        [class.japan]="theme == 5"
+        alt="Art provided by May Wu"
+    ></div>
+</section>

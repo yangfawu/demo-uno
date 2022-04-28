@@ -1,0 +1,86 @@
+<h2 mat-dialog-title>Debug Mode</h2>
+<mat-dialog-content class="mat-typography">
+    <section>
+        <h1>Game States</h1>
+        <p>Game is over: <code>{{ gameSvc.isOver | async }}</code></p>
+        <p>Current card: <code>{{ gameSvc.game.discardedCard || "null" }}</code></p>
+        <p>Can Call Uno: <code>{{ gameSvc.canCallUno | async }}</code></p>
+    </section>
+    <hr>
+    <section>
+        <h1>Player Hands</h1>
+        <div style="
+            display: flex;
+            flex-direction: row;
+            gap: 50px;
+        ">
+            <div *ngFor="let wrapper of gameSvc.players">
+                <ol>
+                    <h2>
+                        <code>{{ wrapper }}</code>
+                        <code *ngIf="wrapper.id == gameSvc.client.id">[Client]</code>
+                        <code *ngIf="wrapper.id == gameSvc.current.id">[Moving]</code>
+                        <code *ngIf="wrapper.id == gameSvc.next.id">[Next]</code>
+                    </h2>
+                    <li *ngFor="let card of wrapper.player.hand">
+                        <code>{{ card }}</code>
+                    </li>
+                    <li class="special">NO CARDS</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <ng-container *ngIf="gameSvc.isOver.value && gameSvc.winner.value.player">
+        <hr>
+        <section>
+            <h1>Winner</h1>
+            <p>Player: <code>{{ gameSvc.winner.value.player.name }}</code></p>
+            <p>Score: <code>{{ gameSvc.winner.value.score }}</code></p>
+        </section>
+    </ng-container>
+    <ng-container *ngIf="!gameSvc.isOver.value">
+        <hr>
+        <section>
+            <h1>{{ gameSvc.current }}'s Options</h1>
+            <ol>
+                <h4>can play</h4>
+                <li *ngFor="let card of gameSvc.current.playableCards">
+                    <code>{{ card }}</code>
+                </li>
+                <li class="special">NO CARDS</li>
+            </ol>
+            <p>Can play a card: <code>{{ gameSvc.current.canPlay }}</code></p>
+            <div *ngIf="gameSvc.current.canPlay">
+                <p>Card suggestion: <code>{{ gameSvc.current.suggestCard() || "null" }}</code></p>
+                <select #select>
+                    <option *ngFor="let card of gameSvc.current.playableCards" [value]="[card.value, card.color]">
+                        {{ card }}
+                    </option>
+                </select>
+                <select #color>
+                    <option *ngFor="let i of [].constructor(4) ; let a = index" value="{{ a + 1 }}">
+                        {{ ["RED", "BLUE", "GREEN", "YELLOW"][a] }}
+                    </option>
+                </select>
+                <button (click)="draw(select.value, color.value)" [disabled]="!gameSvc.current.canPlay">Play
+                    Card</button>
+                <button (click)="gameSvc.current.playRandom()" [disabled]="!gameSvc.current.canPlay">Play
+                    Random</button>
+            </div>
+            <hr>
+            <div>
+                <button *ngIf="!gameSvc.canPass.value" (click)="gameSvc.game.draw()">Draw Card</button>
+                <button *ngIf="gameSvc.canPass.value" (click)="gameSvc.game.pass()">Pass</button>
+            </div>
+            <hr>
+            <div>
+                <button *ngFor="let player of gameSvc.players" (click)="callUno(player.id)">
+                    <code>{{ player }} Call Uno</code>
+                </button>
+            </div>
+        </section>
+    </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

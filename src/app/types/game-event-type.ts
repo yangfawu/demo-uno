@@ -1,0 +1,7 @@
+export type GameEvent = 'beforedraw' 
+    | 'draw' 
+    | 'beforepass' 
+    | 'beforecardplay' 
+    | 'cardplay'
+    | 'nextplayer'
+    | 'end'

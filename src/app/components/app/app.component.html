@@ -1,0 +1,100 @@
+<main *ngIf="gameStarted" class="mat-typography">
+    <section class="common-ui">
+        <section class="deck-ui"
+            matTooltip="drag a card from here to draw it"
+            matTooltipPosition="above">
+            <app-card [hidden]="true" [width]="cardSize"></app-card>
+            <div id="deck-ui" 
+                cdkDropList
+                [cdkDropListData]="deckList"
+                cdkDropListConnectedTo="hand-ui">
+                <div *ngFor="let fakeCard of deckList" class="item" 
+                    cdkDrag 
+                    [cdkDragDisabled]="!canDraw"
+                    [cdkDragData]="fakeCard">
+                    <app-card class="placeholder" [hidden]="true" *cdkDragPlaceholder [width]="cardSize"></app-card>
+                    <app-card [width]="cardSize" [hidden]="true"></app-card>
+                </div>
+            </div>
+        </section>
+        <section class="motor-ui"
+            matTooltip="{{ direction == 1 ? 'counter-clockwise' : 'clockwise' }}"
+            style="--size: {{ motorSize.value }}px">
+            <div class="motor" [class.reverse]="direction == 1"></div>
+        </section>
+        <section class="discard-ui"
+            matTooltip="drag a card here to play it"
+            matTooltipPosition="above">
+            <app-card [card]="discardedCard" [width]="cardSize"></app-card>
+            <div id="discard-ui" 
+                cdkDropList
+                [cdkDropListData]="discardList"
+                [cdkDropListEnterPredicate]="canPlaceInDiscard.bind(this)"
+                (cdkDropListDropped)="discardUiDrop($event)">
+                <div *ngFor="let card of discardList" class="item" 
+                    cdkDrag 
+                    [cdkDragDisabled]="true"
+                    [cdkDragData]="card">
+                    <app-card class="placeholder" [hidden]="true" *cdkDragPlaceholder [width]="cardSize"></app-card>
+                    <app-card [card]="card" [width]="cardSize"></app-card>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="opponent-ui left">
+        <div matTooltip="cards remaining" matTooltipPosition="above">
+            <app-card [hidden]="true" [width]="cardSize"></app-card>
+            <h1>{{ left.player.hand.length }}</h1>
+        </div>
+        <h1 [class.moving]="CURRENT.id == left.id">{{ left.name | uppercase }}</h1>
+    </section>
+    <section class="opponent-ui right">
+        <div matTooltip="cards remaining" matTooltipPosition="above">
+            <app-card [hidden]="true" [width]="cardSize"></app-card>
+            <h1>{{ right.player.hand.length }}</h1>
+        </div>
+        <h1 [class.moving]="CURRENT.id == right.id">{{ right.name | uppercase }}</h1>
+    </section>
+    <section class="hand-ui">
+        <section id="hand-ui"
+            cdkDropList
+            [cdkDropListData]="clientHand"
+            cdkDropListConnectedTo="discard-ui"
+            cdkDropListOrientation="horizontal"
+            [cdkDropListEnterPredicate]="canDrawCard.bind(this)"
+            [cdkDragDisabled]="gameIsOver"
+            (cdkDropListDropped)="handUiDrop($event)"
+            style="--max-width: {{ handWidth }}vw">
+            <div class="card" *ngFor="let card of clientHand" 
+                cdkDrag
+                [cdkDragData]="card"
+                [class.canDrag]="!gameIsOver">
+                <div *cdkDragPlaceholder></div>
+                <app-card [card]="card" [width]="cardSize"></app-card>
+            </div>
+        </section>
+        <div>
+            <h1 [class.moving]="CURRENT.id == CLIENT.id">{{ CLIENT.name | uppercase }}</h1>
+            <button mat-flat-button color="warn" [disabled]="!canPass || !this.isClientTurn" (click)="pass()">PASS</button>
+            <button mat-flat-button color="warn" [disabled]="!canCallUno" (click)="callUno()">CALL UNO</button>
+        </div>
+    </section>
+    <app-billboard></app-billboard>
+</main>
+<section class="button-bar">
+    <!-- BUTTONS -->
+    <button class="end" 
+        matTooltip="edit card themes"
+        matTooltipPosition="left"
+        mat-mini-fab color="primary" 
+        (click)="open('start')">
+        <mat-icon>edit</mat-icon>
+    </button>
+    <!-- <button class="end" 
+        matTooltip="open debug screen"
+        matTooltipPosition="left"
+        mat-mini-fab color="primary" 
+        (click)="open('debug')">
+        <mat-icon>settings</mat-icon>
+    </button> -->
+</section>

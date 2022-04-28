@@ -1,0 +1,54 @@
+:host {
+    & > section {
+        display: inline-flex;
+        box-sizing: border-box;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        width: var(--width);
+        $height: calc(var(--width) * 3 / 2);
+        height: $height;
+        background-repeat: no-repeat;
+        background-image: url(../../../assets/card/uno-cards-1.svg);
+        background-clip: border-box;
+        background-origin: border-box;
+        background-size: 1500% auto;
+        position: relative;
+        background-position-x: calc(var(--x) * -1 * var(--width));
+        background-position-y: calc(var(--y) * -1 * #{$height});
+        border-top-left-radius: 11%;
+        border-top-right-radius: 9.5%;
+        border-bottom-left-radius: 12.5%;
+        border-bottom-right-radius: 12%;
+        & > div {
+            position: absolute;
+            $theme-width: calc(0.44 * var(--width));
+            width: $theme-width;
+            height: $theme-width;
+            background-color: red;
+            top: 50%;
+            left: 50%;
+            background-color: transparent;
+            transform: translate(-50%, -50%);
+            background-repeat: no-repeat;
+            background-size: 1300%;
+            background-position-y: 0;
+            background-position-x: calc(var(--x) * -1 * #{$theme-width});
+            &.mexico {
+                background-image: url(../../../assets/card/themes/mexico.svg);
+            }
+            &.japan {
+                background-image: url(../../../assets/card/themes/japan.svg);
+            }
+            &.south-africa {
+
+            }
+            &.france {
+                background-image: url(../../../assets/card/themes/france.svg);
+            }
+            &.spain {
+                background-image: url(../../../assets/card/themes/spain.svg);
+            }
+        }
+    }
+}

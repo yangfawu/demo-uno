@@ -1,0 +1,20 @@
+:host {
+    & > mat-nav-list > mat-list-item {
+        font-weight: 500;
+        &:hover {
+            color: white;
+            &[data-color = "1"] {
+                background-color: #fb5454;
+            }
+            &[data-color = "2"] {
+                background-color: #5555fd;
+            }
+            &[data-color = "3"] {
+                background-color: #55a955;
+            }
+            &[data-color = "4"] {
+                background-color: #ffaa00;
+            }
+        }
+    }
+}

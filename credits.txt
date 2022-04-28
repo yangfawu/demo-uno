@@ -1,2 +1,0 @@
-SVG Files:
-  Any SVG file in this repository that has a country's name in its file name AND contains images of food (or any art resembling food) is created by May Wu. Please do not redistribute/use these files in any way without the respository owner or May's permissions.

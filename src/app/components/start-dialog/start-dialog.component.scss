@@ -1,0 +1,12 @@
+// :host {
+//     & > form > mat-dialog-content > p:last-of-type {
+//         margin-bottom: 0px;
+//     }
+// }
+:host {
+    & > mat-dialog-content > div {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 20px;
+    }
+}

@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Demo over! {{ data.name }} won this UNO game with {{ data.score }} point{{ data.score == 1 ? "" : "s" }}!</h2>
+<mat-dialog-content class="mat-typography">
+    <p>I hope you enjoyed this session of UNO while looking at delciious food from around the world!</p>
+    <p>If you want to try out other themes, just click replay! Other than that, have fun and keep on UNO-ing!</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="reset()">Replay</button>
+</mat-dialog-actions>

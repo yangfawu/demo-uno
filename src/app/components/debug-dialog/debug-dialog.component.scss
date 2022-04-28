@@ -1,0 +1,10 @@
+:host {
+    li {
+        &.special {
+            display: none;
+        }
+        &:only-of-type {
+            display: list-item;
+        }
+    }
+}

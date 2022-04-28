@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Game Setup</h2>
+<mat-dialog-content class="mat-typography">
+    <h3>Choose a theme for each UNO color!</h3>
+    <div>
+        <mat-form-field appearance="fill" *ngFor="let entry of formControl | keyvalue">
+            <mat-label><span [attr.data-color]="entry.key">{{ entry.key | uppercase }}</span> CARDS</mat-label>
+            <mat-select [formControl]="entry.value" [errorStateMatcher]="matcher">
+                <mat-option *ngFor="let opt of [].constructor(5); let i = index" [value]="i + 1" (click)="update(entry.key)" [ngSwitch]="i">
+                    <!-- UNO-THEME -->
+                    <ng-container *ngSwitchCase="0">MEXICO</ng-container>
+                    <ng-container *ngSwitchCase="1">SPAIN</ng-container>
+                    <ng-container *ngSwitchCase="2">SOUTH AFRICA</ng-container>
+                    <ng-container *ngSwitchCase="3">FRANCE</ng-container>
+                    <ng-container *ngSwitchCase="4">JAPAN</ng-container>
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="entry.value.hasError('required')">Theme required.</mat-error>
+            <mat-error *ngIf="entry.value.hasError('duplicate')">Duplicate theme usage.</mat-error>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="saveThemes.value" mat-raised-button (click)="apply(true)" [disabled]="!valid || !changed">Apply Themes</button>
+    <button *ngIf="!saveThemes.value" mat-raised-button (click)="start()" [disabled]="!valid">Start Game</button>
+</mat-dialog-actions>

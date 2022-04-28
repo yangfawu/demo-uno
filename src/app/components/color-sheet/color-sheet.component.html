@@ -1,0 +1,12 @@
+<h1 mat-dialog-title class="mat-typography">Select a color for your WILD card.</h1>
+<mat-nav-list>
+    <mat-divider></mat-divider>
+    <ng-container *ngFor="let color of choices">
+        <mat-list-item
+            (click)="select(color)"
+            [attr.data-color]="color">
+            {{ ["RED", "BLUE", "GREEN", "YELLOW"][color - 1] }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </ng-container>
+</mat-nav-list>
